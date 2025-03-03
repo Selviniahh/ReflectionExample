@@ -20,7 +20,8 @@ find_package(ImGui-SFML CONFIG REQUIRED)
 find_package(boost_describe CONFIG REQUIRED)
 
 add_executable(ETG src/main.cpp
-       
+        src/UniversalPrint.h
+
 )
 
 target_link_libraries(ETG PRIVATE
