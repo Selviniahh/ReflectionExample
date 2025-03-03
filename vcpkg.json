@@ -1,0 +1,9 @@
+{
+  "dependencies": [
+    "benchmark",
+    "imgui-sfml",
+    "sfml",
+    "boost-type-index",
+    "boost-describe"
+  ]
+}
