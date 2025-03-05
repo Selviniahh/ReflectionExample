@@ -6,10 +6,7 @@
 #include <boost/mp11/algorithm.hpp>
 #include <string>
 #include <cstring>
-#include <iostream>
 #include <type_traits>
-
-#include "UniversalPrint.h"
 
 // Helper to display different types in ImGui
 template <typename T>
@@ -56,10 +53,7 @@ BOOST_DESCRIBE_STRUCT(MyActor, (), (health, damage, name, selamlar))
 
 int main()
 {
-    //Universal printing functionality. 
-    std::cout << Z();
-
-    //SFML STUFFS
+    //---------------NOTE: SFML STUFFS---------------------
     sf::RenderWindow window(sf::VideoMode(800, 600), "ImGui Reflection Example");
     window.setFramerateLimit(60);
     ImGui::SFML::Init(window);
@@ -79,7 +73,7 @@ int main()
 
         // Create an ImGui window to display the reflected members.
         ImGui::Begin("Actor Properties");
-        boost::mp11::mp_for_each<boost::describe::describe_members<MyActor, mod_any_access>>([&]<typename T0>(T0 member_descriptor)
+        boost::mp11::mp_for_each<boost::describe::describe_members<MyActor, boost::describe::mod_any_access>>([&]<typename T0>(T0 member_descriptor)
         {
             // member_descriptor.pointer is a pointer-to-member
             constexpr const char* MemberName = T0::name;

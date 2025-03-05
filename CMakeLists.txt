@@ -18,13 +18,13 @@ find_package(benchmark CONFIG REQUIRED)
 find_package(Threads REQUIRED)
 find_package(ImGui-SFML CONFIG REQUIRED)
 find_package(boost_describe CONFIG REQUIRED)
+find_package(boost_json CONFIG REQUIRED)
 
-add_executable(ETG src/main.cpp
-        src/UniversalPrint.h
+# Get all cpp files recursively from the src directory
+file(GLOB_RECURSE ALL_CPP_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
-)
-
-target_link_libraries(ETG PRIVATE
+# Define the list of libraries to link against
+set(REQUIRED_LIBRARIES
         sfml-audio
         sfml-graphics
         $<$<PLATFORM_ID:Windows>:sfml-main>  # Only link sfml-main on Windows
@@ -34,4 +34,19 @@ target_link_libraries(ETG PRIVATE
         benchmark::benchmark
         ImGui-SFML::ImGui-SFML
         Boost::describe
+        Boost::json
 )
+
+# Create an executable for each cpp file
+foreach(CPP_FILE ${ALL_CPP_FILES})
+    # Get the filename without extension
+    get_filename_component(EXECUTABLE_NAME ${CPP_FILE} NAME_WE)
+
+    # Add executable
+    add_executable(${EXECUTABLE_NAME} ${CPP_FILE})
+
+    # Link with required libraries
+    target_link_libraries(${EXECUTABLE_NAME} PRIVATE ${REQUIRED_LIBRARIES})
+
+    # target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
+endforeach()
